@@ -10,6 +10,13 @@ namespace DotnetVideo.Controllers
 {
     public class Admin : Controller
     {
+        private readonly videosdbContext _context;
+
+        public Admin(videosdbContext context)
+        {
+            _context = context;
+        }
+
         public IActionResult Index()
         {
             return View();

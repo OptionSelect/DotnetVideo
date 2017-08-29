@@ -10,6 +10,12 @@ namespace DotnetVideo.Controllers
 {
     public class Genres : Controller
     {
+        private readonly videosdbContext _context;
+
+        public Genres(videosdbContext context)
+        {
+            _context = context;
+        }
         public IActionResult Index()
         {
             return View();

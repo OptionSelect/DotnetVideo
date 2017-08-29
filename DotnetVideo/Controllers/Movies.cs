@@ -10,6 +10,12 @@ namespace DotnetVideo.Controllers
 {
     public class Movies : Controller
     {
+        private readonly videosdbContext _context;
+
+        public Movies(videosdbContext context)
+        {
+            _context = context;
+        }
         public IActionResult Index()
         {
             return View();

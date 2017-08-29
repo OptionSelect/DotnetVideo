@@ -10,6 +10,13 @@ namespace DotnetVideo.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly videosdbContext _context;
+
+        public HomeController(videosdbContext context)
+        {
+            _context = context;
+        }
+
         public IActionResult Index()
         {
             return View();
