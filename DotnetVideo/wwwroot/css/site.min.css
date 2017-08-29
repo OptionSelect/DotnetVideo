@@ -26,3 +26,9 @@ body {
         display: none;
     }
 }
+
+.container-fluid
+{
+    /*background-image: "http://www.southjersey.com//images/page_movies.jpg";*/
+    background-color: red;
+}

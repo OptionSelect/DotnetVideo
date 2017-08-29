@@ -33,3 +33,7 @@
         display: none;
     }
 }
+
+.headerbg {
+    background-image: url("http://www.southjersey.com//images/page_movies.jpg");   
+}
