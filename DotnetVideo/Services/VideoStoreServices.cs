@@ -22,5 +22,16 @@ namespace DotnetVideo.Services
             var currentMovies = _context.Movies;
             return currentMovies.Include(i => i.GenreModel).Select(s => new MovieViewModel(s));
         }
+
+        public RentalRecordViewModel PopulateRentalForm()
+        {
+            var customerInfo = _context.Customers;
+            var movieInfo = _context.Movies;
+            var newRecord = new RentalRecordViewModel{
+                Customers = customerInfo.ToList(),
+                Movies = movieInfo.ToList()
+            };
+            return newRecord;
+        }
     }
 }

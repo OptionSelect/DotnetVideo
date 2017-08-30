@@ -1,0 +1,33 @@
+@model RentalRecordViewModel
+@{
+    ViewData["Title"] = "Create A Rental Record";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h2>Checkout Movie</h2>
+
+<form asp-controller="RentalRecords" asp-action="CreateRecord">
+    <p>
+    <label for="movie">Movie:</label><select name = "movie">
+            @foreach(var item in Model.Movies)
+            {
+               <option value=@item.MovieId>@item.MovieName</option>
+            }
+    </select>
+    </p>
+    <p>
+    <label for="customer">Customer:</label><select name = "customer">
+            @foreach(var item in Model.Customers)
+            {
+               <option value=@item.CustomerId>@item.CustomerName</option>
+            }
+    </select>
+    </p>
+    <input type="hidden" name="rentaldate" value="@Model.RentalDate"></input>
+    <p>Rental Date: @Model.RentalDate</p>
+    <input type="hidden" name="duedate" value="@Model.DueDate"></input>
+    <p>Due Date: @Model.DueDate</p>
+    <button type="submit">Checkout</button>
+</form>
+<br>

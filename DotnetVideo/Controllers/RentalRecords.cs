@@ -17,17 +17,30 @@ namespace DotnetVideo.Controllers
         {
             _context = context;
         }
+        [HttpPost]
+        public IActionResult CreateRecord(int movie, int customer, DateTime rentaldate, DateTime duedate)
+        {
+            var newEntry = new RentalRecordModel{
+                MovieId = movie,
+                CustomerId = customer,
+                RentalDate = rentaldate,
+                DueDate = duedate
+            };
+            _context.RentalRecords.Add(newEntry);
+            _context.SaveChanges();
+            return Redirect("Index");
+        }
 
         public IActionResult Index()
         {
             var service = new VideoStoreServices(_context);
-            var currentMovies = service.GetAllMovies();
-            return View(currentMovies);
+            return View(service.GetAllMovies());
         }
 
         public IActionResult Create()
         {
-            return View();
+            var service = new VideoStoreServices(_context);
+            return View(service.PopulateRentalForm());
         }
 
         public IActionResult Edit()

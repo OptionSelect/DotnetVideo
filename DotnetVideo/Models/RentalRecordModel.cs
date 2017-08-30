@@ -18,10 +18,5 @@ namespace DotnetVideo.Models
 
         public MovieModel MovieModel {get; set;}
         public CustomerModel CustomerModel {get; set;}
-
-        public void Rent()
-        {
-            DueDate = RentalDate.AddDays(5);
-        }
     }
 }

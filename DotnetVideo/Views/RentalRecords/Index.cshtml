@@ -7,5 +7,9 @@
 
 @foreach(var item in Model)
 {
-    <p>@item.MovieName - @item.MovieDescription - @item.GenreName</p>
+    <p>
+        <strong>@item.MovieName</strong> - @item.MovieDescription - @item.GenreName
+        <br>
+        <a asp-controller="RentalRecords" asp-action="Create" asp-route-id = "@item.MovieId"><button>Rent</button></a>
+    </p>
 }
