@@ -22,6 +22,93 @@ namespace DotnetVideo.Controllers
             return View();
         }
 
+        public IActionResult Seed()
+        {
+            var seedMovies = new List<MovieModel>(){
+                new MovieModel 
+                {
+                       MovieName = "Titanic",
+                       MovieDescription = "Lorem ipsum",
+                       GenreId = 5
+                },
+                new MovieModel 
+                {
+                       MovieName = "Bill and Ted's Most Excellent Adventure",
+                       MovieDescription = "Lorem ipsum",
+                       GenreId = 4
+                },
+                new MovieModel 
+                {
+                       MovieName = "Mission Impossible",
+                       MovieDescription = "Lorem ipsum",
+                       GenreId = 3
+                },
+            };
+
+              var seedGenre = new List<GenreModel>(){
+                new GenreModel 
+                {
+                       GenreName = "Horror"
+                },
+                new GenreModel 
+                {
+                      GenreName = "Sci-Fi"
+                },
+                new GenreModel 
+                {
+                       GenreName = "Action"
+                },
+                new GenreModel 
+                {
+                       GenreName = "Comedy"
+                },
+                new GenreModel 
+                {
+                       GenreName = "Romance"
+                },
+                new GenreModel 
+                {
+                       GenreName = "Drama"
+                },
+            };
+
+            var seedCustomers = new List<CustomerModel>(){
+                new CustomerModel 
+                {
+                       CustomerName = "Brandyn",
+                       CustomerPhoneNumber = "8675309",
+                },
+                new CustomerModel 
+                {
+                       CustomerName = "Jeremiah",
+                       CustomerPhoneNumber = "8675309",
+                },
+                new CustomerModel 
+                {
+                       CustomerName = "Jake",
+                       CustomerPhoneNumber = "8675309",
+                },
+                new CustomerModel 
+                {
+                       CustomerName = "Yana",
+                       CustomerPhoneNumber = "8675309",
+                },
+                new CustomerModel 
+                {
+                       CustomerName = "Robby",
+                       CustomerPhoneNumber = "8675309",
+                },
+            };
+
+            seedMovies.ForEach(movie => _context.Movies.Add(movie));
+            seedGenre.ForEach(genre => _context.Genres.Add(genre));
+            seedCustomers.ForEach(customer => _context.Add(customer));
+
+            _context.SaveChanges();
+
+            return Ok();
+        }
+
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
