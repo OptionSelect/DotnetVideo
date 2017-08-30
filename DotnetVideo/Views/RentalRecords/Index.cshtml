@@ -1,0 +1,10 @@
+@{
+    ViewData["Title"] = "Rental Record Home";
+}
+@model List<MovieModel>
+<h1>Currently Available Movies</h1>
+
+@foreach(var item in Model)
+{
+    <p>@item.MovieName</p>
+}

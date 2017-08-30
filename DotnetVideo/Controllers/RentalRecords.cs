@@ -19,7 +19,8 @@ namespace DotnetVideo.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var currentMovies = _context.Movies.ToList();
+            return View(currentMovies);
         }
 
         public IActionResult Create()

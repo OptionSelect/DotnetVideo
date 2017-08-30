@@ -1,14 +1,17 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@model List<MovieModel>
 <div class = "container-fluid headerbg">
     <h1>Movie Rental System</h1>
 </div>
-
+<br>
+<section class = "container-fluid">
+</section>
 <br>
 <div class = "container-fluid">
     <h3>Rent a Movie</h3>
-    <a asp-controller="RentalRecords" asp-action="Create">Rent</a>
+    <a asp-controller="RentalRecords" asp-action="Index">Rent</a>
 
     <h3>Return a Movie</h3>
     <a asp-controller="Home" asp-action="Return">Return</a>
