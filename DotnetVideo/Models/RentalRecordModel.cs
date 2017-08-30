@@ -12,11 +12,16 @@ namespace DotnetVideo.Models
         public int MovieId { get; set; }
         [ForeignKey ("CustomerId")]
         public int CustomerId { get; set; }
-        public DateTime RentalDate { get; set; }
+        public DateTime RentalDate { get; set; } = DateTime.Now;
         public DateTime ReturnDate { get; set; }
         public DateTime DueDate { get; set; }
 
         public MovieModel MovieModel {get; set;}
         public CustomerModel CustomerModel {get; set;}
+
+        public void Rented()
+        {
+            DueDate = RentalDate.AddDays(5);
+        }
     }
 }
