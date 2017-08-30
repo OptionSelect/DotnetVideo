@@ -33,7 +33,8 @@ namespace DotnetVideo.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var service = new VideoStoreServices(_context);
+            return View(service.GetAllRentalRecords());
         }
 
         public IActionResult Create()

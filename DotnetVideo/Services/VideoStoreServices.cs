@@ -34,10 +34,12 @@ namespace DotnetVideo.Services
             return newRecord;
         }
 
-        public RentalRecordModel GetAllRentalRecords()
+        public IEnumerable<RentalRecordViewModel> GetAllRentalRecords()
         {
-            var currentRentalRecords = _context.RentalRecords;
-            return currentRentalRecords.Include(i => i.MovieModel).Include(j => j.CustomerModel).Select(s => new RentalRecordModel(s));
+            var customerInfo = _context.Customers;
+            var movieInfo = _context.Movies;
+            var allRecords = _context.RentalRecords;
+            return allRecords.Include(m => m.MovieModel).Include(c => c.CustomerModel).Select(s => new RentalRecordViewModel(s));
         }
     }
 }

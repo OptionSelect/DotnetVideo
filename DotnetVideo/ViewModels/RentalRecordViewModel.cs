@@ -4,6 +4,7 @@ namespace DotnetVideo.Models
 {
     public class RentalRecordViewModel
     {
+        public int RentalId { get; set; }
         public int MovieId { get; set; }
         public string MovieName { get; set; }
         public string MovieDescription { get; set; }
@@ -17,6 +18,7 @@ namespace DotnetVideo.Models
         public RentalRecordViewModel(){}
         public RentalRecordViewModel(RentalRecordModel record)
         {
+            this.RentalId = record.RentalId;
             this.MovieId = record.MovieId;
             this.MovieName = record.MovieModel.MovieName;
             this.MovieDescription = record.MovieModel.MovieDescription;

@@ -1,15 +1,15 @@
-@model IEnumerable<MovieViewModel>
+@model IEnumerable<RentalRecordViewModel>
 @{
-    ViewData["Title"] = "Currently Available Movies";
+    ViewData["Title"] = "Rental Records";
 }
 
 <h1>@ViewData["Title"]</h1>
-
-@foreach(var item in Model)
-{
-    <p>
-        <strong>@item.MovieName</strong> - @item.MovieDescription - @item.GenreName
+<table>
+    @foreach(var item in Model)
+    {
+        <tr>
+            <td>Rental ID: @item.RentalId</td><td>Rental Date: @item.RentalDate</td><td>DueDate: @item.DueDate</td><td>Return Date: @item.ReturnDate</td><td>Movie Name: @item.MovieName</td><td> Movie ID: @item.MovieId</td><td> Customer Name: @item.CustomerName</td> <td>Customer ID: @item.CustomerId</td> <td>Customer Phone: @item.CustomerPhoneNumber</td>
+        </tr>
         <br>
-        <a asp-controller="RentalRecords" asp-action="Create" asp-route-id = "@item.MovieId"><button>Rent</button></a>
-    </p>
-}
+    }
+</table>
