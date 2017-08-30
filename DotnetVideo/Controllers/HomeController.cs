@@ -22,7 +22,7 @@ namespace DotnetVideo.Controllers
             return View();
         }
 
-        public IActionResult Seed()
+        /*public IActionResult Seed()
         {
             var seedMovies = new List<MovieModel>(){
                 new MovieModel 
@@ -107,19 +107,15 @@ namespace DotnetVideo.Controllers
             _context.SaveChanges();
 
             return Ok();
-        }
+        }*/
 
-        public IActionResult About()
+        public IActionResult Overdue()
         {
-            ViewData["Message"] = "Your application description page.";
-
             return View();
         }
 
-        public IActionResult Contact()
+        public IActionResult Return()
         {
-            ViewData["Message"] = "Your contact page.";
-
             return View();
         }
 
