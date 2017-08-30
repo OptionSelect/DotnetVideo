@@ -5,10 +5,24 @@
 
 <h1>@ViewData["Title"]</h1>
 <table>
+    <thead>
+    <tr>
+        <th>Rental ID</th>
+        <th>Rental Date</th>
+        <th>Rental Due Date</th>
+        <th>Rental Return Date</th>
+        <th>Movie Name</th>
+        <th>Movie ID</th>
+        <th>Customer Name</th>
+        <th>Customer ID</th>
+        
+        <th>Customer Phone Number</th>
+    </tr>
+    </thead>
     @foreach(var item in Model)
     {
         <tr>
-            <td>Rental ID: @item.RentalId</td><td>Rental Date: @item.RentalDate</td><td>DueDate: @item.DueDate</td><td>Return Date: @item.ReturnDate</td><td>Movie Name: @item.MovieName</td><td> Movie ID: @item.MovieId</td><td> Customer Name: @item.CustomerName</td> <td>Customer ID: @item.CustomerId</td> <td>Customer Phone: @item.CustomerPhoneNumber</td>
+            <td>@item.RentalId</td><td>@item.RentalDate</td><td>@item.DueDate</td><td>@item.ReturnDate</td><td>@item.MovieName</td><td>@item.MovieId</td><td>@item.CustomerName</td><td>@item.CustomerId</td><td>@item.CustomerPhoneNumber</td>
         </tr>
         <br>
     }
