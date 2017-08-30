@@ -1,10 +1,11 @@
+@model IEnumerable<MovieViewModel>
 @{
     ViewData["Title"] = "Currently Available Movies";
 }
-@model List<MovieModel>
+
 <h1>@ViewData["Title"]</h1>
 
 @foreach(var item in Model)
 {
-    <p>@item.MovieName - @item.MovieDescription - @item.GenreId</p>
+    <p>@item.MovieName - @item.MovieDescription - @item.GenreName</p>
 }

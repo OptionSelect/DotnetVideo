@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DotnetVideo.Models;
+using DotnetVideo.Services;
 
 namespace DotnetVideo.Controllers
 {
@@ -19,7 +20,8 @@ namespace DotnetVideo.Controllers
 
         public IActionResult Index()
         {
-            var currentMovies = _context.Movies.ToList();
+            var service = new VideoStoreServices(_context);
+            var currentMovies = service.GetAllMovies();
             return View(currentMovies);
         }
 
