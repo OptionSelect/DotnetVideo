@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DotnetVideo.Models;
+using DotnetVideo.Services;
 
 namespace DotnetVideo.Controllers
 {
@@ -18,7 +19,8 @@ namespace DotnetVideo.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            var service = new VideoStoreServices(_context);
+            return View(service.GetAllMovies());
         }
 
         public IActionResult Create()
