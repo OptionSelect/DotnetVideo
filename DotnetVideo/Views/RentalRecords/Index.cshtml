@@ -1,10 +1,10 @@
 @{
-    ViewData["Title"] = "Rental Record Home";
+    ViewData["Title"] = "Currently Available Movies";
 }
 @model List<MovieModel>
-<h1>Currently Available Movies</h1>
+<h1>@ViewData["Title"]</h1>
 
 @foreach(var item in Model)
 {
-    <p>@item.MovieName</p>
+    <p>@item.MovieName - @item.MovieDescription - @item.GenreId</p>
 }
