@@ -1,20 +1,31 @@
 using System;
-using System.Collections.Generic;
 
 namespace DotnetVideo.Models
 {
     public class RentalRecordViewModel
     {
-        public List<MovieModel> Movies { get; set; }
-        public DateTime RentalDate { get; set; } = DateTime.Now;
-        public DateTime DueDate { get; set; } = DateTime.Now.AddDays(5);
-        public List<CustomerModel> Customers { get; set; }
+        public int MovieId { get; set; }
+        public string MovieName { get; set; }
+        public string MovieDescription { get; set; }
+        public DateTime RentalDate { get; set; }
+        public DateTime DueDate { get; set; }
+        public DateTime ReturnDate { get; set; }
+        public int CustomerId { get; set; }
+        public string CustomerName { get; set; }
+        public string CustomerPhoneNumber { get; set; }
 
         public RentalRecordViewModel(){}
-        public RentalRecordViewModel(RentalRecordModel rentalRecord)
+        public RentalRecordViewModel(RentalRecordModel record)
         {
-            this.Movies = new List<MovieModel>();
-            this.Customers = new List<CustomerModel>();
+            this.MovieId = record.MovieId;
+            this.MovieName = record.MovieModel.MovieName;
+            this.MovieDescription = record.MovieModel.MovieDescription;
+            this.RentalDate = record.RentalDate;
+            this.DueDate = record.DueDate;
+            this.ReturnDate = record.ReturnDate;
+            this.CustomerId = record.CustomerId;
+            this.CustomerName = record.CustomerModel.CustomerName;
+            this.CustomerPhoneNumber = record.CustomerModel.CustomerPhoneNumber;
         }
     }
 }

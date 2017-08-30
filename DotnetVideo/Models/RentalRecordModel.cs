@@ -18,5 +18,10 @@ namespace DotnetVideo.Models
 
         public MovieModel MovieModel {get; set;}
         public CustomerModel CustomerModel {get; set;}
+        public RentalRecordModel(){}
+        public RentalRecordModel(RentalRecordModel rentalrecordmodel)
+        {
+            this.CustomerId = rentalrecordmodel.CustomerId;
+        }
     }
 }
