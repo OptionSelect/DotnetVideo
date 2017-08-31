@@ -13,9 +13,6 @@
     <thead>
         <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.MovieId)
-                </th>
-                <th>
                     @Html.DisplayNameFor(model => model.MovieName)
                 </th>
                 <th>
@@ -31,9 +28,6 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.MovieId)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.MovieName)
             </td>
             <td>
@@ -43,9 +37,10 @@
                 @Html.DisplayFor(modelItem => item.GenreName)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                <a asp-controller="RentalRecords" asp-action="Create" asp-route-id="@item.MovieId">Rent</a>
+                <a asp-action="Edit" asp-route-id="@item.MovieId">Edit</a>
+                <a asp-action="Details" asp-route-id="@item.MovieId">Details</a>
+                <a asp-action="Delete" asp-route-id="@item.MovieId">Delete</a>
             </td>
         </tr>
 }
