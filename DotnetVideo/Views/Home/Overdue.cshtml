@@ -1,7 +1,36 @@
-﻿@{
-    ViewData["Title"] = "Overdue";
+﻿@model IEnumerable<RentalRecordViewModel>
+@{
+    ViewData["Title"] = "Overdue Movies";
 }
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
 
-<p>Use this area to provide additional information.</p>
+<h1>@ViewData["Title"]</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Rental ID</th>
+        <th>Rental Date</th>
+        <th>Rental Due Date</th>
+        <th>Rental Return Date</th>
+        <th>Movie Name</th>
+        <th>Movie ID</th>
+        <th>Customer Name</th>
+        <th>Customer ID</th>
+        <th>Customer Phone Number</th>
+    </tr>
+    </thead>
+    @foreach(var item in Model)
+    {
+        <tr>
+            <td>@item.RentalId</td>
+            <td>@item.RentalDate</td>
+            <td>@item.DueDate</td>
+            <td>@item.ReturnDate</td>
+            <td>@item.MovieName</td>
+            <td>@item.MovieId</td>
+            <td>@item.CustomerName</td>
+            <td>@item.CustomerId</td>
+            <td>@item.CustomerPhoneNumber</td>
+        </tr>
+        <br>
+    }
+</table>

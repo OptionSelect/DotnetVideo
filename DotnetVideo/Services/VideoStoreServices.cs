@@ -41,5 +41,14 @@ namespace DotnetVideo.Services
             var allRecords = _context.RentalRecords;
             return allRecords.Include(m => m.MovieModel).Include(c => c.CustomerModel).Select(s => new RentalRecordViewModel(s));
         }
+
+          public IEnumerable<RentalRecordViewModel> GetOverdueRecords()
+        {
+            var customerInfo = _context.Customers;
+            var movieInfo = _context.Movies;
+            var allRecords = _context.RentalRecords;
+            var today = DateTime.Today;
+            return allRecords.Where(t => t.DueDate.CompareTo(today)<0).Include(m => m.MovieModel).Include(c => c.CustomerModel).Select(s => new RentalRecordViewModel(s));
+        }
     }
 }
