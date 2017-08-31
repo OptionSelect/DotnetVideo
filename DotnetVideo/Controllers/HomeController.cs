@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DotnetVideo.Models;
 using DotnetVideo.Services;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace DotnetVideo.Controllers
 {
@@ -122,11 +124,63 @@ namespace DotnetVideo.Controllers
             return View(service.GetAllRentalRecordsCurrentlyRented());
         }
 
-        [HttpPost]
-        public IActionResult CheckIn()
+       public async Task<IActionResult> CheckIn(int? id)
         {
-            var service = new VideoStoreServices(_context);
-            return View(service.CheckInMovie());
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var rentalRecordModel = await _context.RentalRecords.SingleOrDefaultAsync(m => m.RentalId == id);
+            if (rentalRecordModel == null)
+            {
+                return NotFound();
+            }
+            rentalRecordModel.ReturnDate = DateTime.Now;
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
+        // POST: RentalRecord/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CheckIn(int id, [Bind("RentalId,MovieId,CustomerId,RentalDate,DueDate,ReturnDate")] RentalRecordModel rentalRecordModel)
+        {
+            if (id != rentalRecordModel.RentalId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(rentalRecordModel);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!RentalRecordModelExists(rentalRecordModel.RentalId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerId", rentalRecordModel.CustomerId);
+            ViewData["MovieId"] = new SelectList(_context.Movies, "MovieId", "MovieId", rentalRecordModel.MovieId);
+            return View(rentalRecordModel);
+        }
+
+        private bool RentalRecordModelExists(int id)
+        {
+            return _context.RentalRecords.Any(e => e.RentalId == id);
         }
 
         public IActionResult Error()

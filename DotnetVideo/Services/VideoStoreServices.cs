@@ -57,7 +57,7 @@ namespace DotnetVideo.Services
             var movieInfo = _context.Movies;
             var allRecords = _context.RentalRecords;
             var today = DateTime.Today;
-            return allRecords.Where(t => t.DueDate.CompareTo(today)<0).Include(m => m.MovieModel).Include(c => c.CustomerModel).Select(s => new RentalRecordViewModel(s));
+            return allRecords.Where(t => t.DueDate.CompareTo(today)<0 && t.ReturnDate.CompareTo(default(DateTime))==0).Include(m => m.MovieModel).Include(c => c.CustomerModel).Select(s => new RentalRecordViewModel(s));
         }
 
         public RentalRecordModel CheckInMovie(RentalRecordModel rentedMovie)
