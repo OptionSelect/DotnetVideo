@@ -118,7 +118,15 @@ namespace DotnetVideo.Controllers
 
         public IActionResult Return()
         {
-            return View();
+            var service = new VideoStoreServices(_context);
+            return View(service.GetAllRentalRecordsCurrentlyRented());
+        }
+
+        [HttpPost]
+        public IActionResult CheckIn()
+        {
+            var service = new VideoStoreServices(_context);
+            return View(service.CheckInMovie());
         }
 
         public IActionResult Error()
