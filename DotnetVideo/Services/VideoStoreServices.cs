@@ -34,6 +34,7 @@ namespace DotnetVideo.Services
             return newRecord;
         }
 
+        private static Func<RentalRecordModel, bool> hasDefaultDate => t=> t.ReturnDate.CompareTo(default(DateTime))==0;
         public IEnumerable<RentalRecordViewModel> GetAllRentalRecords()
         {
             var customerInfo = _context.Customers;
@@ -48,7 +49,7 @@ namespace DotnetVideo.Services
             var movieInfo = _context.Movies;
             var allRecords = _context.RentalRecords;
             var today = DateTime.Today;
-            return allRecords.Where(t=> t.ReturnDate.CompareTo(default(DateTime))==0).Include(m => m.MovieModel).Include(c => c.CustomerModel).Select(s => new RentalRecordViewModel(s));
+            return allRecords.Include(m => m.MovieModel).Include(c => c.CustomerModel).Where(hasDefaultDate).Select(s => new RentalRecordViewModel(s));
         }
 
         public IEnumerable<RentalRecordViewModel> GetOverdueRecords()
