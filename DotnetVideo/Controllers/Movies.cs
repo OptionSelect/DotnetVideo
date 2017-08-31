@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using DotnetVideo;
 using DotnetVideo.Models;
-using DotnetVideo.Services;
 
 namespace DotnetVideo.Controllers
 {
@@ -17,25 +18,143 @@ namespace DotnetVideo.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+
+        // GET: Movies
+        public async Task<IActionResult> Index()
         {
-            var service = new VideoStoreServices(_context);
-            return View(service.GetAllMovies());
+            var videosdbContext = _context.Movies.Include(m => m.GenreModel);
+            return View(await videosdbContext.ToListAsync());
         }
 
+        // GET: Movies/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var movieModel = await _context.Movies
+                .Include(m => m.GenreModel)
+                .SingleOrDefaultAsync(m => m.MovieId == id);
+            if (movieModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(movieModel);
+        }
+
+        // GET: Movies/Create
         public IActionResult Create()
         {
+            ViewData["GenreId"] = new SelectList(_context.Genres, "GenreId", "GenreId");
             return View();
         }
 
-        public IActionResult Delete()
+        // POST: Movies/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("MovieId,MovieName,MovieDescription,GenreId")] MovieModel movieModel)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                _context.Add(movieModel);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["GenreId"] = new SelectList(_context.Genres, "GenreId", "GenreId", movieModel.GenreId);
+            return View(movieModel);
         }
 
-        public IActionResult Error()
+        // GET: Movies/Edit/5
+        public async Task<IActionResult> Edit(int? id)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var movieModel = await _context.Movies.SingleOrDefaultAsync(m => m.MovieId == id);
+            if (movieModel == null)
+            {
+                return NotFound();
+            }
+            ViewData["GenreId"] = new SelectList(_context.Genres, "GenreId", "GenreId", movieModel.GenreId);
+            return View(movieModel);
+        }
+
+        // POST: Movies/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("MovieId,MovieName,MovieDescription,GenreId")] MovieModel movieModel)
+        {
+            if (id != movieModel.MovieId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(movieModel);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!MovieModelExists(movieModel.MovieId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["GenreId"] = new SelectList(_context.Genres, "GenreId", "GenreId", movieModel.GenreId);
+            return View(movieModel);
+        }
+
+        // GET: Movies/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var movieModel = await _context.Movies
+                .Include(m => m.GenreModel)
+                .SingleOrDefaultAsync(m => m.MovieId == id);
+            if (movieModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(movieModel);
+        }
+
+        // POST: Movies/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var movieModel = await _context.Movies.SingleOrDefaultAsync(m => m.MovieId == id);
+            _context.Movies.Remove(movieModel);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool MovieModelExists(int id)
+        {
+            return _context.Movies.Any(e => e.MovieId == id);
         }
     }
 }
