@@ -92,9 +92,9 @@ namespace videoStore.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MovieId,MovieName,MovieDescription,GenreId")] MovieViewModel movieViewModel)
+        public async Task<IActionResult> Edit(int id, [Bind("MovieId,MovieName,MovieDescription,GenreId")] MovieModel movieModel)
         {
-            if (id != movieViewModel.MovieId)
+            if (id != movieModel.MovieId)
             {
                 return NotFound();
             }
@@ -103,12 +103,12 @@ namespace videoStore.Controllers
             {
                 try
                 {
-                    _context.Update(movieViewModel);
+                    _context.Update(movieModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MovieModelExists(movieViewModel.MovieId))
+                    if (!MovieModelExists(movieModel.MovieId))
                     {
                         return NotFound();
                     }
@@ -119,7 +119,7 @@ namespace videoStore.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(movieViewModel);
+            return View(movieModel);
         }
 
         // GET: Movie/Delete/5

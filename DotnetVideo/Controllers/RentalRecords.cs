@@ -92,9 +92,9 @@ namespace videoStore.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RentalId,MovieId,CustomerId,RentalDate,DueDate,ReturnDate")] RentalRecordViewModel rentalRecordViewModel)
+        public async Task<IActionResult> Edit(int id, [Bind("RentalId,MovieId,CustomerId,RentalDate,DueDate,ReturnDate")] RentalRecordModel rentalRecordModel)
         {
-            if (id != rentalRecordViewModel.RentalId)
+            if (id != rentalRecordModel.RentalId)
             {
                 return NotFound();
             }
@@ -103,12 +103,12 @@ namespace videoStore.Controllers
             {
                 try
                 {
-                    _context.Update(rentalRecordViewModel);
+                    _context.Update(rentalRecordModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RentalRecordModelExists(rentalRecordViewModel.RentalId))
+                    if (!RentalRecordModelExists(rentalRecordModel.RentalId))
                     {
                         return NotFound();
                     }
@@ -119,9 +119,9 @@ namespace videoStore.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerId", rentalRecordViewModel.CustomerId);
-            ViewData["MovieId"] = new SelectList(_context.Movies, "MovieId", "MovieId", rentalRecordViewModel.MovieId);
-            return View(rentalRecordViewModel);
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerId", rentalRecordModel.CustomerId);
+            ViewData["MovieId"] = new SelectList(_context.Movies, "MovieId", "MovieId", rentalRecordModel.MovieId);
+            return View(rentalRecordModel);
         }
 
         // GET: RentalRecord/Delete/5
