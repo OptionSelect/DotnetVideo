@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using DotnetVideo;
 using DotnetVideo.Models;
+using DotnetVideo;
+using DotnetVideo.Services;
 
-namespace DotnetVideo.Controllers
+namespace videoStore.Controllers
 {
     public class RentalRecords : Controller
     {
@@ -19,14 +20,14 @@ namespace DotnetVideo.Controllers
             _context = context;
         }
 
-        // GET: RentalRecords
-        public async Task<IActionResult> Index()
+        // GET: RentalRecord
+        public IActionResult Index()
         {
-            var videosdbContext = _context.RentalRecords.Include(r => r.CustomerModel).Include(r => r.MovieModel);
-            return View(await videosdbContext.ToListAsync());
+            var service = new VideoStoreServices(_context);
+            return View(service.GetAllRentalRecords());
         }
 
-        // GET: RentalRecords/Details/5
+        // GET: RentalRecord/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,33 +47,29 @@ namespace DotnetVideo.Controllers
             return View(rentalRecordModel);
         }
 
-        // GET: RentalRecords/Create
+        // GET: RentalRecord/Create
         public IActionResult Create()
         {
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerId");
-            ViewData["MovieId"] = new SelectList(_context.Movies, "MovieId", "MovieId");
-            return View();
+            var movieForm = new VideoStoreServices(_context);
+            return View(movieForm.PopulateRentalForm());
         }
 
-        // POST: RentalRecords/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RentalId,MovieId,CustomerId,RentalDate,ReturnDate,DueDate")] RentalRecordModel rentalRecordModel)
+        public IActionResult CreateRecord(int movie, int customer, DateTime rentaldate, DateTime duedate)
         {
-            if (ModelState.IsValid)
+            var newRecord = new RentalRecordModel
             {
-                _context.Add(rentalRecordModel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerId", rentalRecordModel.CustomerId);
-            ViewData["MovieId"] = new SelectList(_context.Movies, "MovieId", "MovieId", rentalRecordModel.MovieId);
-            return View(rentalRecordModel);
+                MovieId = movie,
+                CustomerId = customer,
+                RentalDate = rentaldate,
+                DueDate = duedate
+            };
+            _context.RentalRecords.Add(newRecord);
+            _context.SaveChanges();
+            return Redirect("Index");
         }
 
-        // GET: RentalRecords/Edit/5
+        // GET: RentalRecord/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -90,12 +87,12 @@ namespace DotnetVideo.Controllers
             return View(rentalRecordModel);
         }
 
-        // POST: RentalRecords/Edit/5
+        // POST: RentalRecord/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RentalId,MovieId,CustomerId,RentalDate,ReturnDate,DueDate")] RentalRecordModel rentalRecordModel)
+        public async Task<IActionResult> Edit(int id, [Bind("RentalId,MovieId,CustomerId,RentalDate,DueDate,ReturnDate")] RentalRecordModel rentalRecordModel)
         {
             if (id != rentalRecordModel.RentalId)
             {
@@ -127,7 +124,7 @@ namespace DotnetVideo.Controllers
             return View(rentalRecordModel);
         }
 
-        // GET: RentalRecords/Delete/5
+        // GET: RentalRecord/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -147,7 +144,7 @@ namespace DotnetVideo.Controllers
             return View(rentalRecordModel);
         }
 
-        // POST: RentalRecords/Delete/5
+        // POST: RentalRecord/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

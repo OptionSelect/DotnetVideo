@@ -1,5 +1,4 @@
-@model IEnumerable<DotnetVideo.Models.RentalRecordModel>
-
+@model IEnumerable<RentalRecordViewModel>
 @{
     ViewData["Title"] = "Index";
 }
@@ -13,20 +12,35 @@
     <thead>
         <tr>
                 <th>
+                    @Html.DisplayNameFor(model => model.RentalId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MovieId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MovieName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MovieDescription)
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.RentalDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DueDate)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.ReturnDate)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.DueDate)
+                    @Html.DisplayNameFor(model => model.CustomerId)
                 </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerModel)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MovieModel)
-            </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CustomerName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CustomerPhoneNumber)
+                </th>
             <th></th>
         </tr>
     </thead>
@@ -34,26 +48,42 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.RentalDate)
+                @Html.DisplayFor(modelItem => item.RentalId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ReturnDate)
+                @Html.DisplayFor(modelItem => item.MovieId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MovieName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MovieDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RentalDate)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DueDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CustomerModel.CustomerId)
+                @Html.DisplayFor(modelItem => item.ReturnDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MovieModel.MovieId)
+                @Html.DisplayFor(modelItem => item.CustomerId)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.RentalId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.RentalId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.RentalId">Delete</a>
+                @Html.DisplayFor(modelItem => item.CustomerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerPhoneNumber)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>
 }
     </tbody>
 </table>
+

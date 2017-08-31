@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using DotnetVideo;
 using DotnetVideo.Models;
+using DotnetVideo;
+using DotnetVideo.Services;
 
-namespace DotnetVideo.Controllers
+namespace videoStore.Controllers
 {
     public class Movies : Controller
     {
@@ -19,14 +20,14 @@ namespace DotnetVideo.Controllers
             _context = context;
         }
 
-        // GET: Movies
-        public async Task<IActionResult> Index()
+        // GET: Movie
+        public IActionResult Index()
         {
-            var videosdbContext = _context.Movies.Include(m => m.GenreModel);
-            return View(await videosdbContext.ToListAsync());
+            var service = new VideoStoreServices(_context); 
+            return View(service.GetAllMovies());
         }
 
-        // GET: Movies/Details/5
+        // GET: Movie/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,14 +46,14 @@ namespace DotnetVideo.Controllers
             return View(movieModel);
         }
 
-        // GET: Movies/Create
+        // GET: Movie/Create
         public IActionResult Create()
         {
             ViewData["GenreId"] = new SelectList(_context.Genres, "GenreId", "GenreId");
             return View();
         }
 
-        // POST: Movies/Create
+        // POST: Movie/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -69,7 +70,7 @@ namespace DotnetVideo.Controllers
             return View(movieModel);
         }
 
-        // GET: Movies/Edit/5
+        // GET: Movie/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,7 +87,7 @@ namespace DotnetVideo.Controllers
             return View(movieModel);
         }
 
-        // POST: Movies/Edit/5
+        // POST: Movie/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -122,7 +123,7 @@ namespace DotnetVideo.Controllers
             return View(movieModel);
         }
 
-        // GET: Movies/Delete/5
+        // GET: Movie/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -141,7 +142,7 @@ namespace DotnetVideo.Controllers
             return View(movieModel);
         }
 
-        // POST: Movies/Delete/5
+        // POST: Movie/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

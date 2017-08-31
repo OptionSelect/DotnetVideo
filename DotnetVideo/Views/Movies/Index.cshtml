@@ -1,4 +1,4 @@
-@model IEnumerable<DotnetVideo.Models.MovieModel>
+@model IEnumerable<MovieViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,14 +13,17 @@
     <thead>
         <tr>
                 <th>
+                    @Html.DisplayNameFor(model => model.MovieId)
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.MovieName)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.MovieDescription)
                 </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GenreModel)
-            </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.GenreName)
+                </th>
             <th></th>
         </tr>
     </thead>
@@ -28,20 +31,24 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.MovieId)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.MovieName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.MovieDescription)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.GenreModel.GenreId)
+                @Html.DisplayFor(modelItem => item.GenreName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.MovieId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MovieId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MovieId">Delete</a>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>
 }
     </tbody>
 </table>
+
